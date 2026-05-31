@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meata name="viewport" content="width=device-width", initial-scale="1.0"/>
+    <title>The Aristocrat Restaurant - Since 1936</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --dark: #140b03;
+            --gold: #c9973a;
+            --gold-light: #e8c97a;
+            --cream: #f0e6d3;
+            --muted: rgba(240,230,211,0.5);
+        }
+
+        html {scroll-behavior : smooth;}
+        body {background: var(--dark); color: var(--cream); font-family: 'Josefin Sans', sans-serif; overflow-x:  hidden;}
+
+        /*---------------------------NAVIGATION--------------------------------------*/
+        nav {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 50;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 1.8rem 4rem;
+            transition: background 0.4s, padding 0.4s;
+        }
+        nav.scrolled {
+            background: rgba(20,11,3,0.92);
+            backdrop-filter: blur(12px);
+            padding: 1.1rem 4 rem;
+            border-bottom: 1px solid rgba(201,151,58,0.12);
+        }
+        .nav-logo {
+            font-family: "Playfair Display", serif; 
+            font-size: 0.9rem; 
+            font-weight: 400;
+            letter-spacing: 0.2em; 
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem; 
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.58rem; 
+            letter-spacing: 0.22em; 
+            text-transform: uppercase;
+            color: rgba(240,230,211,0.45);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        /*---------------------------NAVIGATION--------------------------------------*/
+        
+        /*---------------------------MAIN--------------------------------------*/
+        #main {
+            position: relative;
+            height: 100vh;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .main-bg {
+            position: absolute; 
+            inset: 0;
+            background-image: url("photos/Screenshot 2026-05-26 043259.png");
+            background-size: cover;
+            background-position: center 30%;
+            filter: brightness(0.22) saturate(0.8);
+            z-index: 0;
+        }
+        .main-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(40,15,0,0) 0%, rgba(20,11,3,0.75) 100%),
+                        linear-gradient(to bottom, rgba(20,11,3,0.5) 0%, transparent 30%, transparent 65%, rgba(20,11,3,0.95) 100%);
+        }
+        .main-content {
+            position: relative;
+            z-index: 2;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-eyebrow {
+            font-size: 0.58rem; 
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            opacity: 0; 
+            animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+        .main-title {
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(5rem, 12vw, 11rem);
+            font-weight: 400; 
+            line-height: 0.95;
+            color: var(--cream); 
+            letter-spacing: -0.01em;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.2s;
+        }
+        .main-title em {
+            font-style: italic;
+            color: var(--gold-light);
+            display: block;
+        }
+        .main-rule {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.65s;
+        }
+        .main-sub {
+            font-size: 0.68rem; 
+            letter-spacing: 0.28em; 
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.8s;
+            margin-bottom: 2.5rem;
+        }
+        .main-cta {
+            font-size: 0.6rem; 
+            letter-spacing: 0.22em; 
+            text-transform: uppercase;
+            color: var(--dark);
+            background: #144734;
+            padding: 0.85rem 2.2rem;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 1s;
+            display: inline-block;
+        }
+        .main-cta:hover {
+            background: var(--gold-light); 
+            transform: translateY(-2px);
+        }
+        .scroll-hint {
+            position: absolute; 
+            bottom: 2.2rem; left: 50%; 
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.52rem; 
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(240,230,211,0.2);
+            opacity: 0;
+            animation: fadeUpScroll 0.7s ease forwards 1.3s;
+            z-index: 2;
+        }
+        .scroll-line {
+            width: 1px; height: 44px;
+            background: linear-gradient(to bottom, rgba(201,151,58,0.5),transparent);
+        }
+        /*---------------------------MAIN--------------------------------------*/
+
+        /*---------------------------TICKER--------------------------------------*/
+        .moving {
+            border-top : 1px solid rgba(201,151,58,0.12);
+            border-bottom: 1px solid rgba(201, 151, 58, 0.12);
+            padding: 0.85rem 0;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+        }
+        .moving-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        .moving-item {
+            font-size: 0.55rem; 
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #144734;
+            padding: 0 2rem;
+            white-space: nowrap;
+        }
+        .moving-item::after {
+            content: ' ✦';
+            color: rgba(201,151,58,0.4);
+        }
+        /*---------------------------TICKER--------------------------------------*/
+
+        /*---------------------------HERITAGE--------------------------------------*/
+
+        .heritage-bg {
+            background: linear-gradient(160deg, #1A0D05 0%, #2C1A0A 40%, #1C110A 100%);
+        }
+        #heritage {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .heritage-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.05), transparent 60%);
+        }
+        .heritage-content {
+            position: relative; 
+            z-index: 5;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .section-tag {
+            font-size: 0.7rem; 
+            letter-spacing: 0.35rem; 
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section-tag::before {
+            content: '';
+            width: 30px; 
+            height: 1px;
+            background: var(--gold);
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif; 
+            font-size: clamp(2.5rem, 4vw, 3.8rem); 
+            font-weight: 300;
+            line-height: 1.15;
+            color: #FBF8F2;
+            margin-bottom: 1.5rem;
+        }
+        .section-title strong {
+            font-weight: 600;
+            font-style: italic;
+            color: var(--gold-light);
+        }
+        .section-body {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: rgba(245,240,232,0.7);
+            margin-bottom: 2rem;
+        }
+        /*---------------------------HERITAGE--------------------------------------*/
+        
+        /* ------------------------------ HERITAGE ONE ------------------------------ */
+        .display1 {
+            display: flex; 
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .line {
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+        .heritage-text1 {
+            font-family: 'Coromant Garamond', serif; 
+            font-size: 1.2rem; 
+            font-style: italic;
+            color: #E8DFC8;
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
+        }
+        .heritage-text01 {
+            font-size: 0.72rem; 
+            letter-spacing: 0.2em; 
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.7;
+        }
+        /* ------------------------------ HERITAGE ONE ------------------------------   */
+
+        /*  ----------------------------- HERITAGE TWO ------------------------------  */
+        .box-heritage {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem; 
+            margin-top: 1rem;
+        }
+        .display2 {
+            background: rgba(201,168,76,0.06);
+            border: 1px solid rgba(201,168,76,0.15);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .heritage-text2 {
+            font-family: 'Cinzel', serif;
+            font-size:  2rem;
+            color: var(--gold);
+            display: block;
+        }
+        .heritage-text02 {
+            font-size: 0.7rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            color: rgba(245,240,232,0.5);
+        }
+        /*  ----------------------------- HERITAGE TWO ------------------------------  */
+
+        /*  ----------------------------- MENU FEATURE ------------------------------  */
+        .menu-feature {
+            background: #2C1F14;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-feature::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .menu-feature::after {
+            content: '';
+            position: absolute;
+            bottom: 0; 
+            left: 0; 
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .menu-text{
+            text-align: center;
+            padding: 0 2rem 0;
+        }
+        .menu-eyebrow {
+            font-size: 0.58rem;
+            letter-spacing: 0.35rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--cream);
+            line-height: 1.1;
+        }
+        .menu-title em {
+            display: block;
+            font-style: italic; 
+            color: var(--gold-light);
+            font-weight: 400;
+        }
+        .menu-devider {
+            width: 40px; 
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto 0;
+        }
+        /*  ----------------------------- MENU FEATURE ------------------------------  */
+
+        /*---------------------------TABS-------------------------------------------*/
+        .tab-bar {
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap;
+            margin: 2.5rem 0 0;
+            border-bottom: 1px solid rgba(201,151,58,0.18);
+        }
+        .tab-btn {
+            background: none; 
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: rgba(240,230,211,0.35);
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.58rem; 
+            letter-spacing: 0.2em; 
+            text-transform: uppercase; 
+            font-weight: 400;
+            padding: 1rem 1.6rem; 
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            white-space: nowrap; 
+            margin-bottom: -1px;
+        }
+        .tab-btn:hover { color: var(--gold); }
+        .tab-btn.active { 
+            color: var(--gold); 
+            border-bottom-color: var(--gold); 
+        }
+        /*---------------------------TABS-------------------------------------------*/
+
+        /*---------------------------TABS CONTENT-------------------------------------------*/
+        .tab-content { 
+            display: none; 
+            max-width: 860px;
+            margin: 0 auto; 
+            padding: 3rem 2rem 1rem; 
+        }
+        .tab-content.active { 
+            display: block; 
+        }
+        .toc-section { 
+            margin-bottom: 2.5rem; 
+        }
+        .toc-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem; 
+            font-style: italic;
+            color: var(--gold); 
+            margin-bottom: 1rem; 
+            letter-spacing: 0.04em;
+        }
+        .toc-list { 
+            list-style: none; 
+        }
+        .toc-item {
+            display: flex; 
+            align-items: baseline;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(201,151,58,0.1);
+        }
+        .toc-item:last-child { 
+            border-bottom: none; 
+        }
+        .toc-main { 
+            flex: 1; 
+            min-width: 0; 
+        }
+        .toc-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; flex-wrap: wrap; 
+        }
+        .toc-name { 
+            color: var(--cream); 
+            font-size: 0.9rem; 
+            font-weight: 300; 
+        }
+        .toc-badge {
+            font-size: 0.48rem; 
+            letter-spacing: 0.14em; 
+            text-transform: uppercase;
+            color: var(--gold); 
+            border: 1px solid rgba(201,151,58,0.3);
+            padding: 2px 7px; 
+            display: inline-block;
+        }
+        .toc-desc {
+            font-size: 0.75rem; 
+            color: rgba(240,230,211,0.35);
+            font-weight: 300; 
+            margin-top: 3px; 
+            line-height: 1.6;
+        }
+        .toc-dots {
+            flex: 1; 
+            border-bottom: 1px dotted rgba(201,151,58,0.25);
+            margin: 0 0.8rem; 
+            position: relative; 
+            top: -3px; 
+            min-width: 20px;
+        }
+        .toc-price { 
+            color: var(--gold); 
+            font-size: 0.82rem; 
+            font-weight: 400; 
+            flex-shrink: 0; 
+        }
+        /*---------------------------TABS CONTENT-------------------------------------------*/
+
+        /*---------------------------FOOTER HERITAGE-------------------------------------------*/
+        .footer-section { 
+            position: relative;
+            min-height: 65vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .footer-content {
+            position: relative;
+            z-index: 5;
+            max-width: 700px;
+            padding: 1rem 4rem 4rem;
+        }
+        .footer-bg {
+            position: absolute;
+            inset: -20%;
+            background: var(--dark);
+            will-change: transform;
+        }
+        .footer-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--dark);        
+        }
+        .footer-year {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(5rem, 15vw, 10rem);
+            color: rgba(201,168,76,0.08);
+            line-height: 1;
+            margin-bottom: -2rem;
+            display: block;
+            user-select: none;
+            
+        }
+        .footer-qoute {
+            font-family: 'Cormont Garamond', serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-style: italic;
+            color: var(--parchment);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .gold-devider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+        .footer-attr {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+        }
+        /*---------------------------FOOTER HERITAGE-------------------------------------------*/
+
+        /*---------------------------LOCATION SECTION-------------------------------------------*/
+
+        #location {
+            padding: 4rem 4rem;
+            border-top: 1px solid rgba(201,151,58,0.1);
+        }
+        .loc-wrap {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .loc-top {
+            display: flex; 
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .loc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(240,230,211,0.06);
+        }
+        .lc {
+            background: #1a0f06;
+            padding: 2.5rem;
+            transition: background 0.25s;
+        }
+        .lc:hover {background: rgba(201,151,58,0.05);}
+        .lc-name {
+            font-family: 'PlayFair Display', serif;
+            font-size: 1.1rem; 
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+        .lc-addr {
+            font-size: 0.82rem; color: rgba(240,230,211,0.35);
+            line-height: 1.7; 
+            font-weight: 300;
+            margin-bottom:1.2 rem;
+        }
+        .lc-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 0.3rem;
+            align-items: baseline;
+        }
+        .lc-k {
+            font-size: 0.52rem; 
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            min-width: 55px;
+        }
+        .lc-v {
+            font-size: 0.82rem;
+            color: rgba(204,230,211,0.5);
+        }
+        /*---------------------------LOCATION SECTION-------------------------------------------*/
+
+        /*---------------------------FOOTER-------------------------------------------*/
+        footer {
+            padding: 3rem 4rem;
+            border-top: 1px solid rgba(201,151,58,0.1);
+            display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--gold);
+        }
+        .footer-sub {
+            font-size: 0.55rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: rgba(240,230,211,0.25);
+            margin-top: 0.3rem;
+        }
+        .footer-copy {
+            font-size: 0.55rem; letter-spacing: 0.15em;
+            color: rgba(240,230,211,0.2); text-align: right;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .reveal.up { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.15s; }
+        .reveal-delay-2 { transition-delay: 0.3s; }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeUpScroll {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+                } to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+                }
+        }
+        @keyframes scroll {
+            from { 
+                transform: translateX(0); 
+            }
+            to { 
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 820px) {
+            nav {
+                padding: 1.2rem 1.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .loc-grid {
+                grid-template-columns: 1fr;
+            }
+            .heritage-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 4rem 1.5rem;
+            }
+            #location {
+                padding: 6rem 1.5rem;
+            }
+            footer {
+                padding: 2rem 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-copy {
+                text-align: left;
+            }
+            .tab-btn {
+                font-size: 0.5rem;
+                padding: 0.85rem 0.9rem;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <nav id="nav">
+        <a href="#" class="nav-logo">The Aristocrat</a>
+        <ul class="nav-links">
+            <li><a href="#heritage">Our Story</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#location">Visit Us</a></li>
+        </ul>
+    </nav>
+
+    <section id="main">
+        <div class="main-bg"></div>
+        <div class="main-content">
+            <p class="main-eyebrow">Since 1936 &nbsp;·&nbsp; Filipino Heritage Cousine</p>
+            <h1 class="main-title">The<br><em>Aristocrat</em></h1>
+            <div class="main-rule"></div>
+            <p class="main-sub">Legendary Flavors, Timeless Hospitally</p>
+            <a href="#menu" class="main-cta">Discover Our Menu</a>
+        </div>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <div class="moving">
+        <div class="moving-track">
+            <span class="moving-item">Authentic Filipino Cuisine</span>
+            <span class="moving-item">Heritage Recipes Since 1936</span>
+            <span class="moving-item">Aristocrat Chicken</span>
+            <span class="moving-item">Crispy Pata</span>
+            <span class="moving-item">Pork Barbecue</span>
+            <span class="moving-item">Family Dining</span>
+            <span class="moving-item">Makati · Roxas Blvd · 24 Hours</span>
+            <span class="moving-item">4.2 Stars · 845+ Reviews</span>
+            <span class="moving-item">Authentic Filipino Cuisine</span>
+            <span class="moving-item">Heritage Recipes Since 1936</span>
+        </div>
+    </div>
+
+    <section id="heritage" class="heritage-bg">
+        <div class="heritage-overlay"></div>
+        <div class="heritage-content">
+            <div class="reveal">
+                <p class="section-tag">Our Heritage</p>
+                <h2 class="section-title">A Legacy Born in <strong>1936</strong></h2>
+                <p class="section-body">
+                    Founded by Engracia "Lola Asiang" Cruz Reyes — revered as the Mother of Filipino Cooking — The Aristocrat has nourished generations of Filipino families with recipes built on love, tradition, and the finest local ingredients.
+                </p>
+                <p class="section-body">
+                    For nearly nine decades, our kitchen has been the keeper of flavors that feel like home: slow-cooked, soul-deep, and made to be shared around the table.
+                </p>
+            </div>
+            <div class="reveal reveal-delay-1 display1">
+                <div class="line">
+                    <p class="heritage-text1">"Food is our love language — it brings the whole family together, across every generation."</p>
+                    <p class="heritage-text01">— Lola Asiang, Founder</p>
+                </div>
+                <div class="box-heritage">
+                    <div class="display2">
+                        <span class="heritage-text2">88+</span>
+                        <span class="heritage-text02">Years of Tradition</span>
+                    </div>
+                    <div class="display2">
+                        <span class="heritage-text2">845+</span>
+                        <span class="heritage-text02">Happy Reviews</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section id="menu" class="menu-feature">
+        <div class="menu-text reveal">
+            <p class="menu-eyebrow">Full Menu</p>
+            <h2 class="menu-title">The Flavours <em>You Come Home For</em></h2>
+            <div class="menu-divider"></div>
+        </div>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('favorites', this)">Popular Favorites</button>
+            <button class="tab-btn" onclick="switchTab('trays', this)">Party Trays</button>
+            <button class="tab-btn" onclick="switchTab('noodles', this)">Noodles &amp; Merienda</button>
+            <button class="tab-btn" onclick="switchTab('desserts', this)">Desserts &amp; Drinks</button>
+        </div>
+
+        <div id="tab-favorites" class="tab-content active">
+            <div class="toc-section">
+                <p class="toc-section-title">Chicken Specialties</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Aristocrat Chicken</span><span class="toc-badge">House Signature</span></div>
+                            <div class="toc-desc">Flavorful marinade, juicy texture — paired with Java Rice and signature sauces</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">750</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Half Chicken</span></div>
+                            <div class="toc-desc">Classic marinade, served with Java Rice</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">450</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Chicken Satay</span><span class="toc-badge">Grilled Flavor</span></div>
+                            <div class="toc-desc">Grilled Filipino-inspired skewers with savory flavor and satisfying texture</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">300</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="toc-section">
+                <p class="toc-section-title">Pork &amp; Specialties</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Crispy Pata</span><span class="toc-badge">Celebration Classic</span></div>
+                            <div class="toc-desc">Crispy skin and tender meat — perfect for celebrations and family gatherings</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">580</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pork Barbecue</span><span class="toc-badge">BBQ Classic</span></div>
+                            <div class="toc-desc">Smoky heritage marinade with legendary Java Sauce</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">180</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Lechon Kawali</span></div>
+                            <div class="toc-desc">Deep-fried pork belly, liver sauce on the side</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">260</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Lumpiang Shanghai</span><span class="toc-badge">Party Staple</span></div>
+                            <div class="toc-desc">Crispy, flavorful — a staple for Filipino celebrations and family meals</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">145</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="toc-section">
+                <p class="toc-section-title">Rice &amp; Sides</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main"><div class="toc-row"><span class="toc-name">Java Rice</span></div></div>
+                        <span class="toc-dots"></span><span class="toc-price">55</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main"><div class="toc-row"><span class="toc-name">Garlic Rice</span></div></div>
+                        <span class="toc-dots"></span><span class="toc-price">45</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main"><div class="toc-row"><span class="toc-name">Achara (Pickled Papaya)</span></div></div>
+                        <span class="toc-dots"></span><span class="toc-price">35</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tab-trays" class="tab-content">
+            <div class="toc-section">
+                <p class="toc-section-title">Whole Tray Orders</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Kalderetang Baka</span><span class="toc-badge">Good for 6–8</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,850</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Mechado</span><span class="toc-badge">Good for 6–8</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,750</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Kare-Kare with Homemade Bagoong</span><span class="toc-badge">Good for 6–8</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">2,100</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Lumpiang Shanghai</span><span class="toc-badge">Good for 6–8</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">980</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pork Barbecue</span><span class="toc-badge">Good for 6–8</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,400</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Luglog</span><span class="toc-badge">Good for 12–14</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,800</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Bihon</span><span class="toc-badge">Good for 12–14</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,700</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Canton</span><span class="toc-badge">Good for 12–14</span></div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">1,700</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Barbecue Bundle</span><span class="toc-badge">Good for 12–14</span></div>
+                            <div class="toc-desc">Pork and chicken barbecue — the ultimate party combination</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">3,200</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tab-noodles" class="tab-content">
+            <div class="toc-section">
+                <p class="toc-section-title">Noodles</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Luglog</span><span class="toc-badge">Merienda Favourite</span></div>
+                            <div class="toc-desc">Classic noodle dish topped with flavorful sauce, eggs, and seafood</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">155</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Canton</span></div>
+                            <div class="toc-desc">Stir-fried egg noodles with vegetables and choice of protein</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">145</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Pancit Bihon</span></div>
+                            <div class="toc-desc">Rice noodles, classic Filipino-style</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">135</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="toc-section">
+                <p class="toc-section-title">Merienda</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Goto</span></div>
+                            <div class="toc-desc">Rice porridge with beef tripe</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">120</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Arroz Caldo</span></div>
+                            <div class="toc-desc">Ginger rice porridge with chicken</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">110</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Lugaw</span></div>
+                            <div class="toc-desc">Plain rice porridge, classic comfort</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">85</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tab-desserts" class="tab-content">
+            <div class="toc-section">
+                <p class="toc-section-title">Desserts</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Mocha Cake</span><span class="toc-badge">House Favourite</span></div>
+                            <div class="toc-desc">Rich flavor and classic Filipino bakery tradition — perfect for celebrations</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">180</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Carrot Cake</span></div>
+                            <div class="toc-desc">Soft texture and balanced sweetness for a comforting treat</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">165</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Torta Delos Reyes</span><span class="toc-badge">Signature</span></div>
+                            <div class="toc-desc">A signature dessert showcasing the restaurant's Filipino culinary tradition</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">155</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Leche Flan</span></div>
+                            <div class="toc-desc">Rich caramel custard, silky texture</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">95</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="toc-section">
+                <p class="toc-section-title">Drinks</p>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">House Blend Iced Tea</span></div>
+                            <div class="toc-desc">Refreshing — pairs perfectly with grilled dishes and Filipino comfort food</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">75</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main">
+                            <div class="toc-row"><span class="toc-name">Gulaman at Sago</span></div>
+                            <div class="toc-desc">Classic Filipino beverage with nostalgic flavor and refreshing texture</div>
+                        </div>
+                        <span class="toc-dots"></span><span class="toc-price">65</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main"><div class="toc-row"><span class="toc-name">Calamansi Juice</span></div></div>
+                        <span class="toc-dots"></span><span class="toc-price">65</span>
+                    </li>
+                    <li class="toc-item">
+                        <div class="toc-main"><div class="toc-row"><span class="toc-name">Softdrinks</span></div></div>
+                        <span class="toc-dots"></span><span class="toc-price">55</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer-section" id="footer">
+        <div class="footer-bg" id="parallax-footer"></div>
+        <div class="footer-content reveal">
+            <span class="footer-year">1936</span>
+            <p class="footer-qoute">"Some Restaurants feed you.<br />The Aristocrat feeds your <em>soul.</em>"</p>
+            <div class="gold-devider"></div>
+            <p class="footer-attr">Engracia "Lola Asiang" Cruz Reyes · Founder</p>
+        </div>
+    </section>
+
+    <section id="location">
+        <div class="loc-wrap">
+            <div class="loc-top reveal">
+                <div>
+                    <p class="menu-eyebrow">Visit Us</p>
+                    <h2 class="menu-title" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">Find Your<br><em>Nearest Aristocrat</em></h2>
+                </div>
+            </div>
+            <div class="loc-grid reveal-delay-1">
+                <div class="lc">
+                    <p class="lc-name">Jupiter Branch - Makati</p>
+                    <p class="lc-addr">146 Jupiter Street, Makati City, Metro Manila</p>
+                    <div class="lc-row">
+                        <span class="lc-k">Hours</span>
+                        <span class="lc-v">7:00 AM - 12:00AM</span>
+                    </div>
+                    <div class="lc-row">
+                        <span class="lc-k">Phone</span>
+                        <span class="lc-v">(01) 2345 6789</span>
+                    </div>
+                    <div class="lc-row">
+                        <span class="lc-k">Mobile</span>
+                        <span class="lc-v">0123-456-7891</span>
+                    </div>
+                </div>
+                <div class="lc">
+                    <p class="lc-name">Roxas Boulevard Branch</p>
+                    <p class="lc-addr">Roxas Boulevard, Manila - the original heritage location</p>
+                    <div class="lc-row">
+                        <span class="lc-k">Hours</span>
+                        <span class="lc-v">Open 24 Hours</span>
+                    </div>
+                    <div class="lc-row">
+                        <span class="lc-k">Phone</span>
+                        <span class="lc-v">(01) 2345 6789</span>
+                    </div>
+                    <div class="lc-row">
+                        <span class="lc-k">Mobile</span>
+                        <span class="lc-v">0123-456-7891</span>
+                    </div>
+                    <div class="lc-row">
+                        <span class="lc-k">Delivery</span>
+                        <span class="lc-v">GrabFood · FoodPanda</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <footer>
+        <div>
+            <p class="footer-logo">The Aristocrat Restaurant</p>
+            <p class="footer-sub">Legendary Filipino Cuisine Since 1963</p>
+        </div>
+        <div class="footer-copy">
+            <p>© 2026 The Aristocrat Restaurant · All Rights Reserved</p>
+            <p style="margin-top: 0.3rem;">Website Created By: Junesil D. Orquillos · Eugo Pogi · JD Dancerist</p>
+    </footer>
+<script>
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    const layers = [
+        { el: document.getElementById('parallax-footer'), speed: 0.2 }
+    ];
+
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { 
+            e.target.classList.add('up');
+            obs.unobserve(e.target);
+        }
+    });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.reveal').forEach(e1 => obs.observe(e1));
+
+    function switchTab(id, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        btn.classList.add('active');
+    }
+</script>
+</body>
+</html>
